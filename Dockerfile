@@ -1,9 +1,11 @@
 FROM node:15.7-alpine
 
-# TODO compact this
+ENV NODE_ENV=production
 
-RUN apk update; apk add python
-RUN apk add build-base
+RUN addgroup -g 1000 -S appgroup \
+  && adduser -u 1000 -S appuser -G appgroup \
+  && apk update \
+  && apk add build-base python
 
 WORKDIR /app
 
@@ -11,13 +13,15 @@ COPY package*.json ./
 
 RUN npm install
 
-# ENV NODE_ENV=production
-
 COPY app/ ./app
 COPY docs/ ./docs
 COPY gulp/ ./gulp
 COPY lib/ ./lib
 COPY *.js ./
 COPY start.sh ./
+
+RUN chown -R appuser:appgroup /app
+
+USER 1000
 
 CMD ["./start.sh"]
