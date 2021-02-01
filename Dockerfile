@@ -2,8 +2,8 @@ FROM node:15.7-alpine
 
 ENV NODE_ENV=production
 
-RUN addgroup -g 1000 -S appgroup \
-  && adduser -u 1000 -S appuser -G appgroup \
+RUN addgroup -g 1017 -S appgroup \
+  && adduser -u 1017 -S appuser -G appgroup \
   && apk update \
   && apk add build-base python
 
@@ -22,6 +22,6 @@ COPY start.sh ./
 
 RUN chown -R appuser:appgroup /app
 
-USER 1000
+USER 1017
 
 CMD ["./start.sh"]
