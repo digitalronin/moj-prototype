@@ -11,6 +11,7 @@ on:
 
 env:
   ECR_NAME: ${{ secrets.ECR_NAME }}
+  ECR_URL: ${{ secrets.ECR_URL }}
   KUBE_CLUSTER: ${{ secrets.KUBE_CLUSTER }}
   KUBE_NAMESPACE: ${{ secrets.KUBE_NAMESPACE }}
   PROTOTYPE_NAME: ${{ secrets.PROTOTYPE_NAME }}
@@ -32,9 +33,7 @@ jobs:
           region: eu-west-2
           local-image: foo
           image: ${ECR_NAME}:${{ github.sha }}
-      - name: Update image tag
-        run: export IMAGE_TAG=${{ github.sha }} && cat kubernetes-deploy.tpl | envsubst > kubernetes-deploy.yaml
-      - name: Authenticate to the cluster
+      - name: Authenticate to the Cloud Platform
         env:
           KUBE_CERT: ${{ secrets.KUBE_CERT }}
           KUBE_TOKEN: ${{ secrets.KUBE_TOKEN }}
@@ -43,7 +42,13 @@ jobs:
           kubectl config set-cluster ${KUBE_CLUSTER} --certificate-authority=./ca.crt --server=https://${KUBE_CLUSTER}
           kubectl config set-credentials deploy-user --token=${KUBE_TOKEN}
           kubectl config set-context ${KUBE_CLUSTER} --cluster=${KUBE_CLUSTER} --user=deploy-user --namespace=${KUBE_NAMESPACE}
+          kubectl config get-contexts
           kubectl config use-context ${KUBE_CLUSTER}
-      - name: Apply the updated manifest
+      - name: Template out any kube objects
         run: |
-          kubectl -n ${KUBE_NAMESPACE} apply -f kubernetes-deploy.yaml
+          export IMAGE_TAG=${{ github.sha }} && cat kubernetes/deployment.tpl | envsubst > kubernetes/deployment.yaml
+          cat kubernetes/ingress.tpl | envsubst > kubernetes/ingress.yaml
+          cat kubernetes/service.tpl | envsubst > kubernetes/service.yaml
+      - name: Deploy to Cloud Platform
+        run: |
+          kubectl -n ${KUBE_NAMESPACE} apply -f kubernetes/

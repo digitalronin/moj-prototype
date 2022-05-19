@@ -16,7 +16,7 @@ const config = require('./config.json')
 
 // Warn about npm install on crash
 const onCrash = () => {
-  log(colour.cyan('[nodemon] For missing modules try running `npm install`'))
+  log.warn('[nodemon] For missing modules try running `npm install`')
 }
 
 // Remove .port.tmp if it exists
