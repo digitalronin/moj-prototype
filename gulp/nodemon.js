@@ -16,7 +16,7 @@ const config = require('./config.json')
 
 // Warn about npm install on crash
 const onCrash = () => {
-  log.warn('[nodemon] For missing modules try running `npm install`')
+  log(colour.cyan('[nodemon] For missing modules try running `npm install`'))
 }
 
 // Remove .port.tmp if it exists
@@ -33,6 +33,7 @@ gulp.task('server', function () {
     watch: ['.env', '**/*.js', '**/*.json'],
     script: 'listen-on-port.js',
     ignore: [
+      config.paths.cypress + '*',
       config.paths.public + '*',
       config.paths.assets + '*',
       config.paths.nodeModules + '*'
