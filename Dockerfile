@@ -1,6 +1,6 @@
 FROM node:16.14-bullseye-slim
 
-ENV NODE_ENV=development
+ENV NODE_ENV=production
 
 RUN addgroup --gid 1017 --system appgroup \
   && adduser --uid 1017 --system appuser --gid 1017
