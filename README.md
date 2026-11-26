@@ -2,6 +2,15 @@
 
 [![repo standards badge](https://img.shields.io/badge/dynamic/json?color=blue&style=for-the-badge&logo=github&label=MoJ%20Compliant&query=%24.data%5B%3F%28%40.name%20%3D%3D%20%22moj-prototype-template%22%29%5D.status&url=https%3A%2F%2Foperations-engineering-reports.cloud-platform.service.justice.gov.uk%2Fgithub_repositories)](https://operations-engineering-reports.cloud-platform.service.justice.gov.uk/github_repositories#moj-prototype-template "Link to report")
 
+> [!NOTE]
+> **⚠️ Deprecated — No Longer Supported ⚠️**
+>
+> This repository is no longer maintained or supported by the Cloud Platform team.
+>
+> Do not use this template to create new prototypes.
+>
+> Existing prototypes created from this template are not affected, but the Cloud Platform team will no longer provide template-specific updates, fixes or support.
+
 Create a [Gov.UK Prototype Kit] website, hosted on the [MoJ Cloud Platform].
 
 In addition to the protype kit v12.1.0, this repository contains Cloud Platform related files to run the website:
